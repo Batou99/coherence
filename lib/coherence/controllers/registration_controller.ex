@@ -68,9 +68,11 @@ defmodule Coherence.RegistrationController do
     respond_with(conn, :registration_create_success, %{params: params, user: user})
   end
   defp redirect_or_login(conn, user, params, _) do
+    session_params = %{params: params, notice: Messages.backend().signed_in_successfully()}
+
     conn
     |> Controller.login_user(user, params)
-    |> respond_with(:session_create_success, %{params: params, user: user})
+    |> respond_with(:session_create_success, session_params)
   end
 
   @doc """
